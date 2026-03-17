@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+    const res = await axios.post('http://localhost:5001/api/auth/login', { email, password });
     const { token, user } = res.data;
     localStorage.setItem('athena_token', token);
     localStorage.setItem('athena_user', JSON.stringify(user));
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signup = async (name, email, password, role) => {
-    const res = await axios.post('http://localhost:5000/api/auth/register', { name, email, password, role });
+    const res = await axios.post('http://localhost:5001/api/auth/register', { name, email, password, role });
     const { token, user } = res.data;
     localStorage.setItem('athena_token', token);
     localStorage.setItem('athena_user', JSON.stringify(user));
@@ -46,9 +46,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    // Return a dummy object to prevent destructuring crashes
+    return { user: null, login: () => {}, signup: () => {}, logout: () => {}, loading: true };
+  }
+  return context;
+};

@@ -12,9 +12,9 @@ export default function Dashboard() {
       // ... existing fetch logic ...
       try {
         const [books, members, transactions] = await Promise.all([
-          axios.get('http://localhost:5000/api/books'),
-          axios.get('http://localhost:5000/api/members'),
-          axios.get('http://localhost:5000/api/transactions')
+          axios.get('http://localhost:5001/api/books'),
+          axios.get('http://localhost:5001/api/members'),
+          axios.get('http://localhost:5001/api/transactions')
         ]);
         
         const issues = transactions.data.filter(t => t.status === 'issued').length;

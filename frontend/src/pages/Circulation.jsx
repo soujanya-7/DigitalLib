@@ -10,9 +10,9 @@ export default function Circulation() {
   const fetchData = async () => {
     try {
       const [tRes, bRes, mRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/transactions'),
-        axios.get('http://localhost:5000/api/books'),
-        axios.get('http://localhost:5000/api/members')
+        axios.get('http://localhost:5001/api/transactions'),
+        axios.get('http://localhost:5001/api/books'),
+        axios.get('http://localhost:5001/api/members')
       ]);
       setTransactions(tRes.data);
       setBooks(bRes.data.filter(b => b.availableCopies > 0));
@@ -29,7 +29,7 @@ export default function Circulation() {
   const handleIssue = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/transactions/issue', issueData);
+      await axios.post('http://localhost:5001/api/transactions/issue', issueData);
       setIssueData({ bookId: '', memberId: '', days: 14 });
       fetchData();
     } catch (err) {
@@ -39,7 +39,7 @@ export default function Circulation() {
 
   const handleReturn = async (transactionId) => {
     try {
-      await axios.post(`http://localhost:5000/api/transactions/return/${transactionId}`);
+      await axios.post(`http://localhost:5001/api/transactions/return/${transactionId}`);
       fetchData();
     } catch (err) {
       alert('Error returning book');

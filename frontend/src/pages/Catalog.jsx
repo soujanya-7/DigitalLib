@@ -11,7 +11,7 @@ export default function Catalog() {
 
   const fetchBooks = async (searchQ = '') => {
     try {
-      const url = searchQ ? `http://localhost:5000/api/books?q=${searchQ}` : 'http://localhost:5000/api/books';
+      const url = searchQ ? `http://localhost:5001/api/books?q=${searchQ}` : 'http://localhost:5001/api/books';
       const res = await axios.get(url);
       setBooks(res.data);
     } catch (err) {
@@ -31,7 +31,7 @@ export default function Catalog() {
   const handleAddBook = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/books', newBook);
+      await axios.post('http://localhost:5001/api/books', newBook);
       setNewBook({ title: '', author: '', category: '', totalCopies: 1 });
       setShowAdd(false);
       fetchBooks();

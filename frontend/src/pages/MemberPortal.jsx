@@ -19,8 +19,8 @@ export default function MemberPortal() {
       // For now, members can search books and see all transactions (historically)
       // In a real system, we'd filter transactions by effective member ID linked to the user
       const [booksRes, transRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/books'),
-        axios.get('http://localhost:5000/api/transactions')
+        axios.get('http://localhost:5001/api/books'),
+        axios.get('http://localhost:5001/api/transactions')
       ]);
       setBooks(booksRes.data);
       setTransactions(transRes.data);
@@ -33,7 +33,7 @@ export default function MemberPortal() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/books?q=${searchQuery}`);
+      const res = await axios.get(`http://localhost:5001/api/books?q=${searchQuery}`);
       setBooks(res.data);
     } catch (err) {
       console.error('Search error:', err);

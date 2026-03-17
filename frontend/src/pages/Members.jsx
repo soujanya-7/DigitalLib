@@ -8,7 +8,7 @@ export default function Members() {
 
   const fetchMembers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/members');
+      const res = await axios.get('http://localhost:5001/api/members');
       setMembers(res.data);
     } catch (err) {
       console.error(err);
@@ -22,7 +22,7 @@ export default function Members() {
   const handleAddMember = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/members', newMember);
+      await axios.post('http://localhost:5001/api/members', newMember);
       setNewMember({ name: '', email: '', membershipId: '' });
       setShowAdd(false);
       fetchMembers();
