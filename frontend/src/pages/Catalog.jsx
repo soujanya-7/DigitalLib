@@ -7,7 +7,7 @@ export default function Catalog() {
   const [query, setQuery] = useState('');
   
   const [showAdd, setShowAdd] = useState(false);
-  const [newBook, setNewBook] = useState({ title: '', author: '', category: '', isbn: '', totalCopies: 1 });
+  const [newBook, setNewBook] = useState({ title: '', author: '', category: '', totalCopies: 1 });
 
   const fetchBooks = async (searchQ = '') => {
     try {
@@ -32,7 +32,7 @@ export default function Catalog() {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5000/api/books', newBook);
-      setNewBook({ title: '', author: '', category: '', isbn: '', totalCopies: 1 });
+      setNewBook({ title: '', author: '', category: '', totalCopies: 1 });
       setShowAdd(false);
       fetchBooks();
     } catch (err) {
@@ -67,10 +67,6 @@ export default function Catalog() {
                 <input className="input-field" placeholder="Category" value={newBook.category} onChange={e => setNewBook({...newBook, category: e.target.value})} required />
               </div>
               <div className="input-group mb-4">
-                <label className="stat-label">ID Code (ISBN)</label>
-                <input className="input-field" placeholder="ISBN Code" value={newBook.isbn} onChange={e => setNewBook({...newBook, isbn: e.target.value})} required />
-              </div>
-              <div className="input-group mb-4">
                 <label className="stat-label">Inventory Quantity</label>
                 <input className="input-field" type="number" value={newBook.totalCopies} onChange={e => setNewBook({...newBook, totalCopies: parseInt(e.target.value)})} min="1" required />
               </div>
@@ -102,7 +98,6 @@ export default function Catalog() {
                 <th>Asset Identity</th>
                 <th>Origin</th>
                 <th>Class</th>
-                <th>Standard Code</th>
                 <th>Inventory Status</th>
                 <th>Command</th>
               </tr>
@@ -113,7 +108,6 @@ export default function Catalog() {
                   <td><strong style={{fontSize: '1.1rem'}}>{book.title}</strong></td>
                   <td style={{ color: 'var(--text-muted)' }}>{book.author}</td>
                   <td><span style={{ border: '1px solid var(--border-color)', padding: '0.2rem 0.6rem', fontSize: '0.75rem', textTransform: 'uppercase' }}>{book.category}</span></td>
-                  <td style={{ fontFamily: 'monospace' }}>{book.isbn}</td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                       <div style={{ width: '4px', height: '16px', background: book.availableCopies > 0 ? 'var(--primary)' : 'var(--danger)' }}></div>
