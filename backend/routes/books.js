@@ -26,9 +26,8 @@ router.post('/', auth, role(['admin', 'librarian']), async (req, res) => {
     title: req.body.title,
     author: req.body.author,
     category: req.body.category,
-    isbn: req.body.isbn,
-    totalCopies: req.body.totalCopies || 1,
-    availableCopies: req.body.totalCopies || 1
+    totalCopies: req.body.totalCopies || 0,
+    availableCopies: req.body.availableCopies || req.body.totalCopies || 0
   });
   try {
     const newBook = await book.save();
@@ -38,20 +37,6 @@ router.post('/', auth, role(['admin', 'librarian']), async (req, res) => {
   }
 });
 
-// Reserve a book (Any logged in user)
-router.post('/:id/reserve', auth, async (req, res) => {
-  try {
-    const { memberId } = req.body;
-    const book = await Book.findById(req.params.id);
-    if (!book) return res.status(404).json({ message: 'Book not found' });
-    if (!book.reservationQueue.includes(memberId)) {
-       book.reservationQueue.push(memberId);
-       await book.save();
-    }
-    res.json(book);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+// Reservation logic removed to match the provided schema
 
 module.exports = router;
